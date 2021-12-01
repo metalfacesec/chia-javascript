@@ -1,4 +1,4 @@
-# chia-client
+# chia-js
 Chia-client is a node module for interacting with the Chia RPC interface. All functions in this module return promises. You may call any of them using async / await or using the 'then()' fucntion. 
 
 ## Docs
@@ -8,7 +8,7 @@ Below you will find examples and details on all of the supported RPC calls.
 ##### getWallets()
 This method will return an array of the wallets for the provided key
 ```javascript
-const { Wallet } = require('chia-client');
+const { Wallet } = require('chia-js');
 
 async function getWallets() {
         let wallet = new Wallet();
@@ -19,7 +19,7 @@ getWallets();
 ```
 
 ```javascript
-const { Wallet } = require('chia-client');
+const { Wallet } = require('chia-js');
 
 let wallet = new Wallet();
 wallet.getWallets()
