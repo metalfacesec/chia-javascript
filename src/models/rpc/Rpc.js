@@ -21,19 +21,34 @@ class Rpc {
 		if (typeof config.walletPort !== 'undefined' && Number.isInteger(config.walletPort)) {
 			this.walletPort = config.walletPort;
 		}
+
+		this.fullNodePort = 8555;
+		if (typeof config.fullNodePort !== 'undefined' && Number.isInteger(config.fullNodePort)) {
+			this.fullNodePort = config.fullNodePort;
+		}
+
+		this.harvesterPort = 8560;
+		if (typeof config.harvesterPort !== 'undefined' && Number.isInteger(config.harvesterPort)) {
+			this.harvesterPort = config.harvesterPort;
+		}
+	}
+
+	getPortFromNamespace(namespace) {
+		if (namespace === 'wallet') {
+			return this.walletPort;
+		}
+		if (namespace === 'full_node') {
+			return this.fullNodePort;
+		}
+		if (namespace === 'harvester') {
+			return this.harvesterPort;
+		}
+		return null;
 	}
 	
 	makePostRequest(endpoint, data, keyNamespace) {
 		return new Promise((resolve, reject) => {
-			let port = null;
-			if (keyNamespace === 'wallet') {
-				port = this.walletPort;
-			} else if (keyNamespace === 'full_node') {
-				port = 8555;
-			} else if (keyNamespace === 'harvester') {
-				port = 8560;
-			}
-
+			let port = this.getPortFromNamespace(keyNamespace);
 			if (port === null) {
 				return console.log('ERROR: Rpc.makePostRequest - Could not match port to namespace!');
 			}
