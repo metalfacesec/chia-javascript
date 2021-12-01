@@ -1,4 +1,4 @@
-const Rpc = require('./rpc/Rpc');
+const Rpc = require('./Rpc');
 
 class Harvester extends Rpc {
 	constructor(config) {

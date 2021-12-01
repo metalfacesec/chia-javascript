@@ -1,4 +1,4 @@
-const Wallet = require('./models/wallet/Wallet');
+const Wallet = require('./models/Wallet');
 const FullNode = require('./models/FullNode');
 const Harvester = require('./models/Harvester');
 
