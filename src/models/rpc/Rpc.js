@@ -28,6 +28,10 @@ class Rpc {
 			let port = null;
 			if (keyNamespace === 'wallet') {
 				port = this.walletPort;
+			} else if (keyNamespace === 'full_node') {
+				port = 8555;
+			} else if (keyNamespace === 'harvester') {
+				port = 8560;
 			}
 
 			if (port === null) {
@@ -37,8 +41,8 @@ class Rpc {
 			let postData = JSON.stringify(data);
 	
 			let options = {
-				key: fs.readFileSync(`${this.rootKeyDir}/${keyNamespace}/private_wallet.key`),
-				cert: fs.readFileSync(`${this.rootKeyDir}/${keyNamespace}/private_wallet.crt`),
+				key: fs.readFileSync(`${this.rootKeyDir}/${keyNamespace}/private_${keyNamespace}.key`),
+				cert: fs.readFileSync(`${this.rootKeyDir}/${keyNamespace}/private_${keyNamespace}.crt`),
 				hostname: this.hostname,
 				port: port,
 				path: endpoint,
