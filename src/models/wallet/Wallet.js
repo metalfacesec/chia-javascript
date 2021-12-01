@@ -50,6 +50,10 @@ class Wallet extends Rpc {
 	async getTransactionCount(walletId) {
 		return await this.makePostRequest('/get_transaction_count', {wallet_id: walletId}, 'wallet');
 	}
+
+	async addKey(mnemonic) {
+		return await this.makePostRequest('/add_key', {mnemonic: mnemonic, type: 'new_wallet'}, 'wallet');
+	}
 }
 
 module.exports = Wallet;
