@@ -1,5 +1,5 @@
 {
-  "name": "chia-js",
+  "name": "chia-javascript",
   "version": "1.0.0",
   "description": "Client for interacting with the Chia RPC",
   "main": "src/index.js",
