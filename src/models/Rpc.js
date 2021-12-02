@@ -1,16 +1,18 @@
+const os = require('os');
 const fs = require('fs');
 const https = require('https');
 
 class Rpc {
 	constructor(config) {
 		if (config === null || typeof config !== 'object') {
-			return console.log('ERROR: Invalid config passed into constructor!');
+			config = {};
 		}
 
-		if (typeof config.rootKeyDir !== 'string' || !config.rootKeyDir.length) {
-			return console.log('ERROR: Invalid rootKeyDir passed into constructor!');
+		this.rootKeyDir = `${os.homedir()}/.chia/mainnet/config/ssl`;
+		if (typeof config.rootKeyDir === 'string' && config.rootKeyDir.length) {
+			this.rootKeyDir = config.rootKeyDir;
 		}
-		this.rootKeyDir = config.rootKeyDir;
+		
 		
 		this.hostname = '127.0.0.1';
 		if (typeof config.hostname === 'string' && config.hostname.length) {
