@@ -4,8 +4,36 @@ This module is for interacting with the Chia RPC interface. All functions in thi
 ## Installation
 `npm install chia-javascript`
 
+## Configuration
+When you initialize any of the classes in this module you can pass them in a JSON object to override a handful of the default configs. Below are the options you can override and some example config objects.
+|Config Name     |Default Value                           |Description                                                | 
+|----------------|----------------------------------------|-----------------------------------------------------------|
+|rootKeyDir      |(user home dir)/.chia/mainnet/config/ssl|The directory that holds the ssl certificates for your node. **Note that you should not add a trailing slash**|
+|hostname|127.0.0.1|The hostname for your node, note that by default your node can only communicate with itself
+|walletPort|9256|The port your wallet RPC is listening on
+|fullNodePort|8555|The port your full node RPC is listening on
+|harvesterPort|8560|The port your harvester RPC is listening on
+**Examples**
+```javascript
+/* Override all configs) */
+const { Wallet, FullNode, Havester } = require('chia-javascript');
+
+let config = {
+	rootKeyDir: '/home/myuser/chia_dir/mainnet/config/ssl', //Custom chia directory, this points to the ssl folder that contains all your keys
+	hostname: '10.0.0.10',
+	walletPort: 9999,
+	fullNodePort: 9998,
+	harvesterPort: 9997
+};
+
+// The below will all run using the custom values you set in the object above
+let wallet = new Wallet(config);
+let fullNode = new FullNode(config);
+let havester = new Havester(config);
+```
+
 ## Examples
-Fetching all wallets IDs:
+**Fetch all wallets IDs:**
 ```javascript
 const { Wallet } = require('chia-javascript');
 
@@ -16,7 +44,6 @@ async function getWallets() {
 }
 getWallets();
 ```
-
 ```javascript
 const { Wallet } = require('chia-javascript');
 
@@ -28,10 +55,8 @@ wallet.getWallets()
 .catch(error => {
     console.log(error)
 });
-```
 
-Both of the above output something similar to the object below:
-```
+/* SAMPLE OUTPUT FOR BOTH EXAMPLES ABOVE:
 { 
 	success: true,
 	wallets: [ 
@@ -39,6 +64,95 @@ Both of the above output something similar to the object below:
 		{ data: '', id: 2, name: 'Pool wallet', type: 9 }
 	] 
 }
+*/
+```
+**Fetch all public keys:**
+```javascript
+const { Wallet } = require('chia-javascript');
+
+async function getPublicKeys() {
+        let wallet = new Wallet();
+        let wallets = await wallet.getPublicKeys();
+        console.log(wallets);
+}
+getPublicKeys();
+
+/* SAMPLE OUTPUT:
+{ "public_key_fingerprints": [ xxxxxxxxxx ], "success": true }
+*/
+```
+**Fetch blockchain height info:**
+```javascript
+const { Wallet } = require('chia-javascript');
+
+async function getHeightInfo() {
+        let wallet = new Wallet();
+        let wallets = await wallet.getHeightInfo();
+        console.log(wallets);
+}
+getHeightInfo();
+
+/* SAMPLE OUTPUT:
+{ "height": 1326017, "success": true }
+*/
+```
+**Fetch blockchain state:**
+```javascript
+const { FullNode } = require('chia-javascript');
+  
+async function getBlockchainState() {
+        let fullNode = new FullNode();
+        let blockchainState = await fullNode.getBlockchainState();
+        console.log(blockchainState);
+}
+getBlockchainState();
+
+/* SAMPLE OUTPUT:
+{ blockchain_state:
+   { difficulty: 2752,
+     genesis_challenge_initialized: true,
+     mempool_size: 24,
+     peak:
+      { challenge_block_info_hash:
+         '0x111111111111111111111111111111111111111111111111111',
+        challenge_vdf_output: [Object],
+        deficit: 0,
+        farmer_puzzle_hash:
+         '0x111111111111111111111111111111111111111111111111111',
+        fees: null,
+        finished_challenge_slot_hashes: null,
+        finished_infused_challenge_slot_hashes: null,
+        finished_reward_slot_hashes: null,
+        header_hash:
+         '0x111111111111111111111111111111111111111111111111111',
+        height: 11111111111,
+        infused_challenge_vdf_output: [Object],
+        overflow: false,
+        pool_puzzle_hash:
+         '0x111111111111111111111111111111111111111111111111111',
+        prev_hash:
+         '0x111111111111111111111111111111111111111111111111111',
+        prev_transaction_block_hash: null,
+        prev_transaction_block_height: 11111111111,
+        required_iters: 11111111111,
+        reward_claims_incorporated: null,
+        reward_infusion_new_challenge:
+         '0x111111111111111111111111111111111111111111111111111',
+        signage_point_index: 11111111111,
+        sub_epoch_summary_included: null,
+        sub_slot_iters: 11111111111,
+        timestamp: null,
+        total_iters: 11111111111,
+        weight: 11111111111 },
+     space: 11111111111,
+     sub_slot_iters: 11111111111,
+     sync:
+      { sync_mode: false,
+        sync_progress_height: 0,
+        sync_tip_height: 0,
+        synced: true } },
+  success: true }
+*/
 ```
 
 ## Documentation
@@ -85,6 +199,14 @@ Both of the above output something similar to the object below:
 	* Response:
 		* ``` { "count": 36, "success": true, "wallet_id": 1 } ```
 
+### FullNode
+* getBlockchainState()
+	* Returns current information about the blockchain, including the peak, sync information, difficulty, mempool size, etc.
+	* Response:
+		* ``` { "blockchain_state": { "difficulty": 2752, "genesis_challenge_initialized": true, "mempool_size": 24, "peak": { "challenge_block_info_hash": "0x111111111111111111111111111111111111111111111111111", "challenge_vdf_output": [Object], "deficit": 0, farmer_puzzle_hash": "0x111111111111111111111111111111111111111111111111111", "fees": null, "finished_challenge_slot_hashes": null, "finished_infused_challenge_slot_hashes": null, "finished_reward_slot_hashes": null, "header_hash": "0x111111111111111111111111111111111111111111111111111", "height": 11111111111, "infused_challenge_vdf_output": [Object], "overflow": false, "pool_puzzle_hash": "0x111111111111111111111111111111111111111111111111111", "prev_hash": "0x111111111111111111111111111111111111111111111111111", "prev_transaction_block_hash": null, "prev_transaction_block_height": 11111111111, "required_iters": 11111111111, "reward_claims_incorporated": null, "reward_infusion_new_challenge": "0x111111111111111111111111111111111111111111111111111", "signage_point_index": 11111111111, "sub_epoch_summary_included": null, "sub_slot_iters": 11111111111, "timestamp": null, "total_iters": 11111111111, "weight": 11111111111 }, "space": 11111111111, "sub_slot_iters":  11111111111, "sync": { "sync_mode": false, "sync_progress_height": 0, "sync_tip_height": 0, "synced": true } }, "success": true } ```
+### Harvester
+
 ### TODO
-* getTransactions(walletId)
-* addKey(mnemonic)
+* Wallet
+	* getTransactions(walletId)
+	* addKey(mnemonic)
