@@ -13,6 +13,7 @@ When you initialize any of the classes in this module you can pass them in a JSO
 |walletPort|9256|The port your wallet RPC is listening on
 |fullNodePort|8555|The port your full node RPC is listening on
 |harvesterPort|8560|The port your harvester RPC is listening on
+
 **Examples**
 ```javascript
 /* Override all configs) */
