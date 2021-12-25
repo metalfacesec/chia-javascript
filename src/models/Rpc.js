@@ -69,17 +69,22 @@ class Rpc {
 					'Content-Length': postData.length
 				}
 			};
-	
-			var req = https.request(options, (res) => {
-				res.on('data', d => {
-					let response = JSON.parse(d);
-					if (response.success === true) {
-						return resolve(response);
-					}
-					reject(d);
+
+			let rpcResponse = [];
+			var req = https.request(options, res => {
+				res.on('data', chunk => {
+					rpcResponse.push(chunk);
+				});
+				
+				res.on('end', function () {
+					resolve(JSON.parse(Buffer.concat(rpcResponse).toString()));
+				});
+
+				res.on('error', e => {
+					reject(e);
 				});
 			});
-	
+
 			req.on('error', (e) => {
 				reject(e);
 			});
