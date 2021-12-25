@@ -176,7 +176,7 @@ getBlockchainState();
 ```
 **Fetch plot info:**
 ```javascript
-const { Harvester } = require('/home/metalface/chia-javascript/src/index');
+const { Harvester } = require('chia-javascript');
   
 async function getPlots() {
 	let harvester = new Harvester();
