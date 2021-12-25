@@ -99,7 +99,7 @@ getHeightInfo();
 ```
 **Add new key**
 ```javascript
-const { Wallet } = require('../chia-javascript/src/index');
+const { Wallet } = require('chia-javascript');
   
 async function addKey() {
         let wallet = new Wallet();
