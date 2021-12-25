@@ -16,7 +16,7 @@ When you initialize any of the classes in this module you can pass them in a JSO
 
 **Examples**
 ```javascript
-/* Override all configs) */
+/* Override all configs */
 const { Wallet, FullNode, Havester } = require('chia-javascript');
 
 let config = {
