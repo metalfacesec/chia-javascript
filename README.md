@@ -97,6 +97,25 @@ getHeightInfo();
 { "height": 1326017, "success": true }
 */
 ```
+**Add new key**
+```javascript
+const { Wallet } = require('../chia-javascript/src/index');
+  
+async function addKey() {
+        let wallet = new Wallet();
+        let mnemonic = await wallet.generateMnemonic();
+        let mnemonicString = mnemonic.mnemonic.join(" ");
+
+        let newKey = await wallet.addKey([mnemonicString]);
+        console.log(newKey);
+}
+addKey();
+/* SAMPLE OUTPUT:
+{ "fingerprint": 11111111, "success": true }
+*/
+
+```
+
 **Fetch blockchain state:**
 ```javascript
 const { FullNode } = require('chia-javascript');
@@ -155,6 +174,37 @@ getBlockchainState();
   success: true }
 */
 ```
+**Fetch plot info:**
+```javascript
+const { Harvester } = require('/home/metalface/chia-javascript/src/index');
+  
+async function getPlots() {
+	let harvester = new Harvester();
+	console.log(await harvester.getPlots());
+}
+getPlots();
+
+/* SAMPLE OUTPUT:
+{
+	"plots": [
+		{
+			"file_size": 108856412183,
+			"filename": "/home/user/plots/plot-k32-2021-08-01-01-11-111.plot",
+			"plot-seed": "0x1111111",
+			"plot_id": "0x111111111",
+			"plot_public_key": "0x1111111111",
+			"pool_contract_puzzle_hash": "0x11111111111",
+			"pool_public_key": null,
+			"size": 32,
+			"time_modified": 111111111
+		}
+	],
+	"failed_to_open_filenames": [],
+	"not_found_filenames": [],
+	"success": true
+}
+*/
+```
 
 ## Documentation
 ### Wallet
@@ -199,15 +249,25 @@ getBlockchainState();
 	* Gets the number of transactions in this wallet.
 	* Response:
 		* ``` { "count": 36, "success": true, "wallet_id": 1 } ```
+* getTransactions(walletId)
+	* Gets transaction records for provided wallet.
+	* The walletID parameter is the 'id' field returned from the getWallets() method above.
+	* Response:
+		 * ``` { "success": true, "transactions": [ { "additions": [Array], "amount": 100, "confirmed": true, "confirmed_at_height": 772417, "created_at_time": 1637083336, "fee_amount": 0, "name": "0x11111111", "removals": [], "sent": 0, "sent_to": [], "spend_bundle": null, "to_address": "1111111111", "to_puzzle_hash": "0x111111111", "trade_id": null, "type": 0, "wallet_id": 1 } ] } ```
+* addKey(mnemonic)
+	* Add a private key to the keychain.
+	* The mnemonic param is an array of strings. Each string in the array is 24 words with a space between them.
+	* Response:
+		* ``` { "fingerprint": 11111111, "success": true } ```
 
 ### FullNode
 * getBlockchainState()
 	* Returns current information about the blockchain, including the peak, sync information, difficulty, mempool size, etc.
 	* Response:
 		* ``` { "blockchain_state": { "difficulty": 2752, "genesis_challenge_initialized": true, "mempool_size": 24, "peak": { "challenge_block_info_hash": "0x111111111111111111111111111111111111111111111111111", "challenge_vdf_output": [Object], "deficit": 0, farmer_puzzle_hash": "0x111111111111111111111111111111111111111111111111111", "fees": null, "finished_challenge_slot_hashes": null, "finished_infused_challenge_slot_hashes": null, "finished_reward_slot_hashes": null, "header_hash": "0x111111111111111111111111111111111111111111111111111", "height": 11111111111, "infused_challenge_vdf_output": [Object], "overflow": false, "pool_puzzle_hash": "0x111111111111111111111111111111111111111111111111111", "prev_hash": "0x111111111111111111111111111111111111111111111111111", "prev_transaction_block_hash": null, "prev_transaction_block_height": 11111111111, "required_iters": 11111111111, "reward_claims_incorporated": null, "reward_infusion_new_challenge": "0x111111111111111111111111111111111111111111111111111", "signage_point_index": 11111111111, "sub_epoch_summary_included": null, "sub_slot_iters": 11111111111, "timestamp": null, "total_iters": 11111111111, "weight": 11111111111 }, "space": 11111111111, "sub_slot_iters":  11111111111, "sync": { "sync_mode": false, "sync_progress_height": 0, "sync_tip_height": 0, "synced": true } }, "success": true } ```
-### Harvester
 
-### TODO
-* Wallet
-	* getTransactions(walletId)
-	* addKey(mnemonic)
+### Harvester
+* getPlots()
+	* Gets a list of plots being farmed on this harvester.
+	* Response:
+		* ``` { "plots": [Array], "failed_to_open_filenames": [Array], "not_found_filenames": [Array], "status": true } ```
