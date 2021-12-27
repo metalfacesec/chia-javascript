@@ -4,6 +4,11 @@ This module is for interacting with the Chia RPC interface. All functions in thi
 ## Installation
 `npm install chia-javascript`
 
+## Testing
+You can run the automated tests at anytime by running the command below from the root of the repo while on a Chia node with RPC running.
+
+`npm test`
+
 ## Configuration
 When you initialize any of the classes in this module you can pass them in a JSON object to override a handful of the default configs. Below are the options you can override and some example config objects.
 |Config Name     |Default Value                           |Description                                                | 

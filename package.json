@@ -1,22 +1,29 @@
 {
   "name": "chia-javascript",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "Client for interacting with the Chia RPC",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/metalfacesec/chia-client.git"
   },
   "keywords": [
-    "chia"
+    "chia",
+    "chia-blockchain",
+    "crypto",
+    "rpc",
+    "cryptocurrency"
   ],
   "author": "Sean Moriarty",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/metalfacesec/chia-client/issues"
   },
-  "homepage": "https://github.com/metalfacesec/chia-client#readme"
+  "homepage": "https://github.com/metalfacesec/chia-client#readme",
+  "devDependencies": {
+    "jest": "^21.2.0"
+  }
 }
